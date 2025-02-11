@@ -40,20 +40,38 @@ export default {
 
     props: [
         'chat',
-        'users'
+        'users',
     ],
 
     data() {
         return {
             body: '',
+
         }
     },
 
     layout: Main,
 
+    computed: {
+        userIds() {
+            return this.users.map(user => {
+                return user.id;
+            }).filter(userIds => {
+                return userIds !== this.$page.props.auth.user.id;
+            })
+        }
+    },
+
     methods: {
         store() {
-            axios.post('/messages', {})
+            axios.post('/messages', {
+                chat_id: this.chat.id,
+                body: this.body,
+                user_ids: this.userIds
+            })
+                .then( res => {
+                    console.log(res)
+                })
         }
     },
 

@@ -22,8 +22,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'chat_id' => 'required|integer|exists:chat_id',
+            'chat_id' => 'required|integer|exists:chats,id',
             'body' => 'required|string',
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'required|integer|exists:users,id',
         ];
     }
 }
