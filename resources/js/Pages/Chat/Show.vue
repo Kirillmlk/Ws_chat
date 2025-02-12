@@ -3,8 +3,10 @@
         <div class="w-3/4 p-4 mr-4 bg-white border border-gray-200">
             <h3 class="text-gray-700 mb-4 text-lg">{{ chat.title ?? 'Your chat' }}</h3>
             <div class="mb-4" v-if="messages">
-                <div v-for="message in messages">
-                    <div class="p-4 bg-sky-50 border border-sky-100 inline-block">
+                <div v-for="message in messages" :class="message.is_owner ? 'text-right' : ''">
+                    <div :class="['p-4 mb-4 inline-block',
+                        message.is_owner ? 'bg-green-50 border-green-100' : 'bg-sky-50 border-sky-100'
+                    ]">
                         <p class="text-sm">{{ message.user_name }}</p>
                         <p class="nb-2">{{ message.body }}</p>
                         <p class="text-xs italic">{{ message.time }}</p>
