@@ -11,4 +11,14 @@ class Message extends Model
 
     protected $table = 'messages';
     protected $guarded = false;
+
+    public function getTimeAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

@@ -2,17 +2,25 @@
     <div class="flex">
         <div class="w-3/4 p-4 mr-4 bg-white border border-gray-200">
             <h3 class="text-gray-700 mb-4 text-lg">{{ chat.title ?? 'Your chat' }}</h3>
-            <div class="mb-4">
-
+            <div class="mb-4" v-if="messages">
+                <div v-for="message in messages">
+                    <div class="p-4 bg-sky-50 border border-sky-100 inline-block">
+                        <p class="text-sm">{{ message.user_name }}</p>
+                        <p class="nb-2">{{ message.body }}</p>
+                        <p class="text-xs italic">{{ message.time }}</p>
+                    </div>
+                </div>
             </div>
             <div>
                 <h3 class="text-gray-700 mb-4 text-lg">Send Message</h3>
                 <div>
                     <div class="mb-4">
-                        <input type="text" v-model="body" class="rounded-full border border-gray-400" placeholder="Type your message...">
+                        <input type="text" v-model="body" class="rounded-full border border-gray-400"
+                               placeholder="Type your message...">
                     </div>
                     <div>
-                        <a @click.prevent="store" class="inline-block bg-indigo-600 text-white text-xs px-3 py-2 rounded-lg" href="#">
+                        <a @click.prevent="store"
+                           class="inline-block bg-indigo-600 text-white text-xs px-3 py-2 rounded-lg" href="#">
                             Send
                         </a>
                     </div>
@@ -41,6 +49,7 @@ export default {
     props: [
         'chat',
         'users',
+        'messages',
     ],
 
     data() {
@@ -69,8 +78,8 @@ export default {
                 body: this.body,
                 user_ids: this.userIds
             })
-                .then( res => {
-                    console.log(res)
+                .then(res => {
+                    this.messages.push(res.data)
                 })
         }
     },

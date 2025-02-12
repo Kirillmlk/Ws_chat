@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Message;
 
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,8 +18,9 @@ class MessageResource extends JsonResource
         return [
             'id' => $this->id,
             'chat_id' => $this->chat_id,
-            'users_id' => $this->users_id,
-            'body' => $this->body
+            'user_name' => $this->user->name,
+            'body' => $this->body,
+            'time' => $this->time,
         ];
     }
 }
