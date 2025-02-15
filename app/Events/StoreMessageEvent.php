@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Http\Resources\Message\MessageResource;
+use App\Http\Resources\Message\MessageToOthersResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -34,7 +35,7 @@ class StoreMessageEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('store-message'),
+            new Channel('store-message.' . $this->message->chat_id),
         ];
     }
 
@@ -46,7 +47,7 @@ class StoreMessageEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'message' => MessageResource::make($this->message)->resolve()
+            'message' => MessageToOthersResource::make($this->message)->resolve()
         ];
     }
 }

@@ -55,9 +55,8 @@ export default {
     ],
 
     created() {
-        window.Echo.channel('store-message')
+        window.Echo.channel(`store-message.{$this.chat.id}`)
             .listen('.test-message', res => {
-                res.message.is_owner = false
                 this.messages.push(res.message)
             })
             .error(error => {
