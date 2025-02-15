@@ -3,10 +3,18 @@
         <div class="w-1/2 p-4 mr-4 bg-white border border-gray-200">
             <h3 class="text-gray-700 mb-4 text-lg">Chats</h3>
             <div v-if="chats" class="text-gray-700 mb-4 text-lg">
-                <div v-for="chat in chats" class="flex items-center pb-4 mb-4 border-b border-gray-300">
-                    <Link :href="route('chats.show', chat.id)" class="flex">
-                        <p class="mr-2">{{ chat.id }}</p>
-                        <p class="mr-2">{{ chat.title ?? 'Your chat' }}</p>
+                <div v-for="chat in chats" class="pb-4 mb-4 border-b border-gray-300">
+                    <Link :href="route('chats.show', chat.id)">
+                        <div class="flex justify-between">
+                            <div class="flex">
+                                <p class="mr-2">{{ chat.id }}</p>
+                                <p class="mr-2">{{ chat.title ?? 'Your chat' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs rounded-full bg-sky-500 text-white px-2 py-1">
+                                    {{ chat.unreadable_count }}</p>
+                            </div>
+                        </div>
                     </Link>
                 </div>
             </div>
@@ -14,15 +22,18 @@
         <div class="w-1/2 p-4 bg-white border border-gray-200">
             <div class="flex items-center mb-4 justify-between">
                 <h3 class="text-gray-700 mb-4 text-lg">Users</h3>
-                <a v-if="!isGroup" @click.prevent="isGroup = true" href="#" class="inline-block bg-indigo-600 text-white text-xs px-3 py-2 rounded-lg">Make group</a>
+                <a v-if="!isGroup" @click.prevent="isGroup = true" href="#"
+                   class="inline-block bg-indigo-600 text-white text-xs px-3 py-2 rounded-lg">Make group</a>
                 <div v-if="isGroup" class="flex items-center">
-                    <input class="mr-4 h-8 border border-gray-300 rounded-full" type="text" placeholder="group title" v-model="title">
+                    <input class="mr-4 h-8 border border-gray-300 rounded-full" type="text" placeholder="group title"
+                           v-model="title">
                     <a @click.prevent="storeGroup" href="#"
                        :class="['mr-2 inline-block bg-green-600 text-white text-xs px-3 py-2 rounded-lg',
                        this.userIds.length > 1 ? 'bg-green-600' : 'bg-green-300'
                        ]">Go chat
                     </a>
-                    <a @click.prevent="refreshUserIds"  href="#" class="inline-block bg-red-600 text-white text-xs px-3 py-2 rounded-lg">X</a>
+                    <a @click.prevent="refreshUserIds" href="#"
+                       class="inline-block bg-red-600 text-white text-xs px-3 py-2 rounded-lg">X</a>
 
                 </div>
             </div>

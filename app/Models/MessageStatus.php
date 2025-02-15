@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MessageStatus extends Model
 {
     use HasFactory;
-
-    protected $table = 'messages_status';
+    protected $table = 'message_status';
     protected $guarded = false;
 }
