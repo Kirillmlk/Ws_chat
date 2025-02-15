@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\Message\MessageResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,16 +11,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class WsEvent implements ShouldBroadcast
+class StoreMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    private $message;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($message)
     {
-        //
+
+        $this->message = $message;
     }
 
     /**
@@ -30,13 +34,10 @@ class WsEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('test-ws'),
+            new Channel('store-message'),
         ];
     }
 
-    /**
-     * @return string
-     */
     public function broadcastAs(): string
     {
         return 'test-message';
@@ -45,7 +46,7 @@ class WsEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'message' => 'test message'
+            'message' => MessageResource::make($this->message)->resolve()
         ];
     }
 }

@@ -54,10 +54,20 @@ export default {
         'messages',
     ],
 
+    created() {
+        window.Echo.channel('store-message')
+            .listen('.test-message', res => {
+                res.message.is_owner = false
+                this.messages.push(res.message)
+            })
+            .error(error => {
+                console.error('Echo error:', error);
+            });
+    },
+
     data() {
         return {
             body: '',
-
         }
     },
 
