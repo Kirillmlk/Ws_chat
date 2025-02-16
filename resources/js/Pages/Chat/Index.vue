@@ -10,7 +10,7 @@
                                 <p class="mr-2">{{ chat.id }}</p>
                                 <p class="mr-2">{{ chat.title ?? 'Your chat' }}</p>
                             </div>
-                            <div>
+                            <div v-if="chat.unreadable_count !== 0">
                                 <p class="text-xs rounded-full bg-sky-500 text-white px-2 py-1">
                                     {{ chat.unreadable_count }}</p>
                             </div>

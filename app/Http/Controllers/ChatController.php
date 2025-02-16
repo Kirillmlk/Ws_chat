@@ -58,6 +58,10 @@ class ChatController extends Controller
         $users = $chat->users()->get();
         $messages = $chat->messages()->with('user')->get();
 
+        $chat->unreadableMessageStatuses()->update([
+            'is_read' => true
+        ]);
+
         $messages = MessageResource::collection($messages)->resolve();
         $users = UserResource::collection($users)->resolve();
         $chat = ChatResource::make($chat)->resolve();
