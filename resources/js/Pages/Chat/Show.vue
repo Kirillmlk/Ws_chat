@@ -58,10 +58,13 @@ export default {
         window.Echo.channel(`store-message.${this.chat.id}`)
             .listen('.test-message', res => {
                 this.messages.push(res.message)
-                axios.patch('/message_statuses', {
-                    user_id: this.$page.props.auth.user.id,
-                    message_id: res.message.id
-                })
+
+                if (this.$page.url === `/chats/${this.chat.id}`) {
+                    axios.patch('/message_statuses', {
+                        user_id: this.$page.props.auth.user.id,
+                        message_id: res.message.id
+                    })
+                }
             })
             .error(error => {
                 console.error('Echo error:', error);
