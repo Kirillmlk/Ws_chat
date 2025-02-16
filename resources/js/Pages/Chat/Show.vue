@@ -91,6 +91,7 @@ export default {
             })
                 .then(res => {
                     this.messages.push(res.data)
+                    this.body = ''
                 })
         }
     },
