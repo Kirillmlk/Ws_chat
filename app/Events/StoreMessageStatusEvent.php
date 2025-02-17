@@ -19,16 +19,18 @@ class StoreMessageStatusEvent implements ShouldBroadcast
     private $count;
     private $chatId;
     private $userId;
+    private $message;
 
 
     /**
      * Create a new event instance.
      */
-    public function __construct($count, $chatId, $userId)
+    public function __construct($count, $chatId, $userId, $message)
     {
         $this->count = $count;
         $this->chatId = $chatId;
         $this->userId = $userId;
+        $this->message = $message;
     }
 
     /**
@@ -53,6 +55,7 @@ class StoreMessageStatusEvent implements ShouldBroadcast
         return [
             'chat_id' => $this->chatId,
             'count' => $this->count,
+            'message' => MessageResource::make($this->message)->resolve(),
         ];
     }
 }
