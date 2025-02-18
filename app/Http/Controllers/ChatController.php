@@ -20,7 +20,8 @@ class ChatController extends Controller
 
         $chats = auth()->user()
             ->chats()->has('messages')
-            ->with('lastMessage')->withCount('unreadableMessageStatuses')->get();
+            ->with(['lastMessage', 'chatWith'])
+            ->withCount('unreadableMessageStatuses')->get();
         $chats = ChatResource::collection($chats)->resolve();
 
         return inertia('Chat/Index', compact('users', 'chats'));
