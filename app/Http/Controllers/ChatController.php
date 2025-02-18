@@ -15,7 +15,7 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $users = User::where('id', '!=', auth()->id())->get();
+        $users = User::anotherUsers();
         $users = UserResource::collection($users)->resolve();
 
         $chats = auth()->user()
@@ -50,6 +50,9 @@ class ChatController extends Controller
 
         } catch (\Exception $exception) {
             DB::rollBack();
+            return redirect()->back()->withErrors([
+                'some_error' => $exception->getMessage(),
+            ]);
         }
 
 
@@ -60,16 +63,12 @@ class ChatController extends Controller
     {
         $page = request('page') ?? 1;
 
-        $users = $chat->users()->get();
-        $messages = $chat->messages()->with('user')
-            ->orderByDesc('created_at')
-            ->paginate(5, '*', 'page', $page);
+        $users = $chat->getChatUsers();
+        $messages = $chat->getMessagesWithPagination($page);
 
-        $chat->unreadableMessageStatuses()->update([
-            'is_read' => true
-        ]);
+        $chat->readMessages();
 
-        $isLastPage = (int)$page === (int)$messages->lastPage();
+        $isLastPage = $messages->onLastPage();
 
         $messages = MessageResource::collection($messages)->resolve();
 
