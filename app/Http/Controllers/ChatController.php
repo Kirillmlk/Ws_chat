@@ -69,6 +69,11 @@ class ChatController extends Controller
         ]);
 
         $messages = MessageResource::collection($messages)->resolve();
+
+        if ($page > 1) {
+            return $messages;
+        }
+
         $users = UserResource::collection($users)->resolve();
         $chat = ChatResource::make($chat)->resolve();
 
